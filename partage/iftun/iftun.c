@@ -1,14 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/stat.h>
-#include <sys/ioctl.h>
 
-#include <unistd.h>
-#include <fcntl.h>
-#include <linux/if.h>
-#include <linux/if_tun.h>
+
 int tun_alloc(char *dev)
 {
   struct ifreq ifr;
@@ -36,7 +27,9 @@ int tun_alloc(char *dev)
   }
   strcpy(dev, ifr.ifr_name);
   return fd;
-}      
+}
+
+      
 
 int main (int argc, char** argv){
 
@@ -44,35 +37,11 @@ int main (int argc, char** argv){
   printf("Création de %s\n",argv[1]);
   tunfd = tun_alloc(argv[1]);
   printf("Faire la configuration de %s...\n",argv[1]);
-  printf("Faire la configuration de %d...\n",tunfd);
   printf("Appuyez sur une touche pour continuer\n");
   getchar();
   printf("Interface %s Configurée:\n",argv[1]);
   system("ip addr");
-
-  if(tunfd < 0) {
-    perror("tun_create");
-    return 1;
-  }
-  int ret;
-  unsigned char buf[4096] = {0};
-  
-  while(1) {
-    unsigned char ip[4];
-    ret = read(tunfd, buf, sizeof(buf));
-    if (ret < 0) break;
-    printf("read %d bytes\n", ret);
-    memcpy(ip, &buf[12], 4);
-    memcpy(&buf[12], &buf[16], 4);
-    memcpy(&buf[16], ip, 4);
-    buf[20] = 0;
-    *((unsigned short*)&buf[22]) += 8;
-    ret = write(tunfd, buf, ret);
-    printf("write %d bytes\n", ret);
-  }
-
   printf("Appuyez sur une touche pour terminer\n");
   getchar();
-
   return 0;
 }
