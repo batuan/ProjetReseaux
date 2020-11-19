@@ -5,11 +5,12 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
-
 #include <unistd.h>
 #include <fcntl.h>
 #include <linux/if.h>
 #include <linux/if_tun.h>
+#include "tunalloc.h"
+
 int tun_alloc(char *dev)
 {
   struct ifreq ifr;

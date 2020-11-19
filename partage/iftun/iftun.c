@@ -1,47 +1,40 @@
+#include "iftun.h"
 
+int tun_write(int fd, char *buf, int len) {
 
-int tun_alloc(char *dev)
-{
-  struct ifreq ifr;
-  int fd, err;
+}
+int tun_read(int fd, char *buf, int len) {
 
-  if( (fd = open("/dev/net/tun", O_RDWR)) < 0 ){
-    perror("alloc tun");
-    exit(-1);
-  }
-
-  memset(&ifr, 0, sizeof(ifr));
-
-  /* Flags: IFF_TUN   - TUN device (no Ethernet headers) 
-   *        IFF_TAP   - TAP device  
-   *
-   *        IFF_NO_PI - Do not provide packet information  
-   */ 
-  ifr.ifr_flags = IFF_TUN; 
-  if( *dev )
-    strncpy(ifr.ifr_name, dev, IFNAMSIZ);
-
-  if( (err = ioctl(fd, TUNSETIFF, (void *) &ifr)) < 0 ){
-    close(fd);
-    return err;
-  }
-  strcpy(dev, ifr.ifr_name);
-  return fd;
 }
 
-      
+void src2dst(int src, char* dst) {
+
+}
 
 int main (int argc, char** argv){
-
   int tunfd;
   printf("Création de %s\n",argv[1]);
   tunfd = tun_alloc(argv[1]);
-  printf("Faire la configuration de %s...\n",argv[1]);
-  printf("Appuyez sur une touche pour continuer\n");
-  getchar();
-  printf("Interface %s Configurée:\n",argv[1]);
-  system("ip addr");
-  printf("Appuyez sur une touche pour terminer\n");
-  getchar();
+  char command[50];
+  int error = 0;
+  sprintf(command, "sh ../test.sh %s", argv[1]);
+  error = system(command);
+  if(error!=0) {
+    perror("config error");
+    return 0;
+  }
+
+  int ret;
+  unsigned char buf[256] = {0};
+  while (1)
+  {
+    /* code */
+    unsigned char ip[4];
+    ret = read(tunfd, buf, sizeof(buf));
+    if (ret < 0) break;
+    buf = malloc(size);
+  }
+  
+
   return 0;
 }
