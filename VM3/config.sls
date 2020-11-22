@@ -6,6 +6,18 @@ NetworkManager:
   service:
     - dead
     - enable: False
+## Install packet
+netcat6:
+  pkg:
+    - installed
+
+iperf3:
+  pkg:
+    - installed
+    
+tshark:
+  pkg:
+    - installed
 
 ## Suppression de la passerelle par défaut
 ip route del default:
@@ -51,9 +63,9 @@ routes:
       - name: LAN1-6
         ipaddr: fc00:1234:1::/64
         gateway: fc00:1234:4::36
-      - name: LAN3-6
-        ipaddr: fc00:1234:3::/64
-        gateway: fc00:1234:4::36
 
-
-
+## But enable ipv6 forwarding
+net.ipv6.conf.all.forwarding:
+  sysctl:
+    - present
+    - value: 1

@@ -1,6 +1,19 @@
 # Configuration eth1
 # RAPPEL: eth0 est à vagrant, ne pas y toucher
 
+## Install packet
+netcat6:
+  pkg:
+    - installed
+
+iperf3:
+  pkg:
+    - installed
+    
+tshark:
+  pkg:
+    - installed
+
 ## Désactivation de network-manager
 NetworkManager:
   service:
@@ -51,9 +64,9 @@ routes:
       - name: LAN2-6
         ipaddr: fc00:1234:2::/64
         gateway: fc00:1234:3::16
-      - name: LAN4-6
-        ipaddr: fc00:1234:4::/64
-        gateway: fc00:1234:3::16
 
-
-
+## But enable ipv6 forwarding
+net.ipv6.conf.all.forwarding:
+  sysctl:
+    - present
+    - value: 1

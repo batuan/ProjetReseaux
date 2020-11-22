@@ -12,6 +12,15 @@ ip route del default:
   cmd:
     - run
 
+## Install packet
+netcat6:
+  pkg:
+    - installed
+
+iperf3:
+  pkg:
+    - installed
+
 ##Configuration de VM1
 eth1:
   network.managed:

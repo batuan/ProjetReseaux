@@ -1,6 +1,15 @@
 # Configuration eth1
 # RAPPEL: eth0 est à vagrant, ne pas y toucher
 
+## Install packet
+netcat6:
+  pkg:
+    - installed
+
+iperf3:
+  pkg:
+    - installed
+
 ## Désactivation de network-manager
 NetworkManager:
   service:

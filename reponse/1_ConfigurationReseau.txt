@@ -1,0 +1,29 @@
+echo: vm1 -> vm3
+root@vm1:/home/vagrant# telnet 172.16.2.163 echo
+Trying 172.16.2.163...
+Connected to 172.16.2.163.
+Escape character is '^]'.
+a
+a
+b
+b
+vm1 -> vm3-6
+root@vm1:/home/vagrant# telnet fc00:1234:4::36 echo
+Trying fc00:1234:4::36...
+Connected to fc00:1234:4::36.
+Escape character is '^]'.
+test
+test
+echo
+echo
+
+Peut-on faire que le serveur n'écoute qu'en IPv6 sur VM3 ? yes
+vm1-> vm3-6 ipv6
+root@vm1:/home/vagrant# telnet fc00:1234:4::3 echo
+Trying fc00:1234:4::3...
+Connected to fc00:1234:4::3.
+Escape character is '^]'.
+test
+test
+echo
+echo
